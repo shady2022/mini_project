@@ -1,5 +1,4 @@
 from pyfiglet import Figlet
-from actor import Actor
 from documentary import Documentary
 from film import Film
 from series import series
@@ -7,56 +6,32 @@ from clip import Clip
 from Media import Media
 
 
-class Main():
-    def __init__(self):
-
-        try:
-            f = open('database.txt', 'r')
-        
-        except:
-            print('error! data base not found')
-        
-        big_text = f.read
-        rows = big_text.split('\n')
+def show_menu():
+    print('1-add_movie')
+    print('2-edit')
+    print('3-delet_movie')
+    print('4-search_movie')
+    print('5-download_moive')
+    print('6-save_and_exit')
     
-        self.movie = []
-    
-        for i in range(len(rows)):
-            info = rows[i].split(',')
-            self.movie.append ={'id': int(info[0]), 'name':info[1], 'year':int(info[2]), 'director':info[3], 'duration':info[4],'genre':info[5]}
-            
-            f.close()
-            print('movie:', self.movie)
-            print('program is ready to use!!')
-            self.show_menu()
-            
-            
+movie = []
 
-    def load(self):
-        f = Figlet(font= 'standard')
-        print(f.renderText('movie star'))
-        print('loading....')
-            
-            
-            
-    load()            
-            
+def Media_information():
+    id = int(input('please enter your id:'))
+    n  = input('please enter name of movie:')
+    dir = input('please enter the name of director:')
+    IMs = float(input('please enter your rate:'))
+    url = input(' please neter url :')
+    T = int(input('please enter your duration:'))
+    c = input('please enter your casts: ')
+    g = input('please enter your genre:')
+    return id, n, dir, IMs, url, T, c, g
 
-    def add_movie(self):
+   
 
-        id = int(input('please enter your id:'))
-        n = input('please enter name of movie:')
-        dir = input('please enter the name of director:')
-        IMs = float(input('please enter your rate:'))
-        url = input(' please neter url :')
-        T = int(input('please enter your duration:'))
-        c = input('please enter your casts: ')
-        g = input('please enter your genre:')
-        return id, n, dir, IMs, url, T, c, g
-    
-    
-    def add_media():
-        while True:
+
+def add_movie():
+    while True:
         print('1- Add Film ')
         print('2- Add Series ')
         print('3- Add Clip')
@@ -64,80 +39,147 @@ class Main():
         print('5- exit')
 
         choice = int(input('Please enter media want to add: '))
-        if choice == 1:
-            print('Please enter film information: ')
-            inf = add_movie()
-            ci = input('Cinema to release a movie: ')
-            film = Film.Film('Film: ', inf[0], inf[1], inf[2], inf[3], inf[4], inf[5], ci)
-            MEDIAS.append(film)
-
-        elif choice == 2:
-            print('Please enter series information: ')
-            inf = add_moive()
-            sec = int(input('section: '))
-            seo = int(input('season: '))
-            series = Series.Series('Series: ', inf[0], inf[1], inf[2], inf[3], inf[4], inf[5], sec , seo)
-            MEDIAS.append(series)
-
-        elif choice == 3:
-            print('Please enter clip information: ')
-            inf = get_Media_information()
-            s = input('shortened from: ')
-            clip = Clip.Clip('Clip: ', inf[0], inf[1], inf[2], inf[3], inf[4], inf[5], s)
-            MEDIAS.append(clip)
-
-        elif choice == 4:
-            print('Please enter documentary information: ')
-            inf = get_Media_information()
-            t = input('A truth taken from: ')
-            documentary = Documentary.Documentary('Documentary: ', inf[0], inf[1], inf[2], inf[3], inf[4], inf[5], t)
-            MEDIAS.append(documentary)
-
-        elif choice == 5:
-            print('Medias add. ')
-            break
-
-        else:
-            print('Wrong choice! Try again. ')
-           
-    
-        
-        
-        
-        
-def show_menu(self):
-        while True:
-           print('1-add movie:')
-           print('2-edit movie:')
-           print('3-delet movie:')
-           print('4-search movie:')
-           print('5-EXIT:')
-       
-           
-
-    
-    
-        
-
-    
-        
-        
-  
+        if choice =='1':
+            Media_information()
+            Media.append(Film)
+         
+        elif choice == '2':
+            Media_information()
+            Media.append(series)
             
+        elif choice == '3':
+            Media_information()
+            Media.append(Clip)
+            
+        elif choice == '4':
+            Media_information()
+            Media.append(Documentary)
+            
+        elif choice == '5':
+            break
+        
+def load():
+   
+    
+    try:
+        f = open('database.txt', 'r')
+        
+    except:
+        print('error! data base not found')
+        
+        big_text = f.read
+        rows = big_text.split('\n')
+             
 
+    for i in range(len(rows)):
+        info = rows[i].split(',')
+        movie.append ={'id': int(info[0]), 'name':info[1], 'year':int(info[2]), 'director':info[3], 'duration':info[4],'genre':info[5]}
+        show_menu()    
+        f.close()
+        print('movie:', movie)
+        print('program is ready to use!!')
+            
+            
+       
+        
+def show_edit_menu():
+    print('1-name')
+    print('2-year')
+    print('3-director')
+    print('4-duration')
+    print('5-genre')
+    print('6-end & exit')
+    
+def edit():
+    Media_information()
+    for i in range(len(movie)):
+        if movie [i]['id'] == id:
+            while True:
+                show_edit_menu()
+                option = int(input('please choose from edit menu:'))
+                if option == 1:
+                    movie[i]['name']=input('please enter new name: ')
+                elif option == 2:
+                    movie[i]['year']=int(input('please enter nem year: '))
+                elif option == 3:
+                    movie[i]['director']=input('please enter new director: ')
+                elif option == 4:
+                    movie[i]['duration']=int(input('please enter new duration: '))
+                elif option == 5:
+                    movie[i]['genre']=input('please enter new genre: ')
+                elif option == 6:
+                    break
+                else:
+                    print('value error')
+                    
+def delet_movie():
+    id = int(input('please enter movie id: '))
+    for i in range(len(movie)):
+        if movie[i]['id']== id:
+            movie.pop(i)
+            print('movie removed sucessfully')
+            
+    
+def search_movie():
+    user_input = input('please enter id or name: ')
+    for i in range(len(movie)):
+        if movie[i]['name'] == user_input or str(movie[i]['id'] == user_input):
+            print(movie[i])
+            
+            
+def download_movie():
+    name = input('Please enter name of madia that want to download: ')
+    f=0
 
-
+    for i in range(len(movie)):
+        if name == movie[i].name:
+            movie[i].download()
+    if f == 0:
+        print('This media not exist!!!')   
         
         
+        
+def save_and_exit():
+    f = open('database1.txt', 'w')
+    for i in range(len(movie)):
+        rows = str(movie[i]['id'])+','+ movie[i]['name']+ ','+ int(movie[i]['year'])+str(movie[i]['director'])+ ','+int(movie[i]['duration']) + ','+str(movie[i]['genre'])+ '\n')
+        f.write(rows)
+        f.close()
+        exit
+        
+        
+load() 
+f = Figlet(font= 'standard')
+print(f.renderText('movie star'))
+print('loading....')
 
+while True:
+    show_menu()
+    select = int(input('please choose a number:'))
+    
+    if select == 1:
+        add_movie()
+    elif select == 2:
+        edit()
+    elif select ==3:
+        delet_movie()
+    elif select == 4:
+        search_movie()
+    elif select == 5:
+        download_movie()
+    elif select == 6:
+        save_and_exit()
+        
+            
+        
     
     
-
-        
-
-
-        
-    
-                            
-
-                                
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                
+                
